@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import User from "./user/User";
 import Post from "./post/Post";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Link } from "react-router-dom";
 class App extends Component {
   state = {
     name: "modern",
@@ -14,10 +14,15 @@ class App extends Component {
     const { name } = this.state;
     return (
       <div>
-        Hello {name}
+        <div>Hello {name}</div>
+        <div>
+          <Link to="/">Home</Link>
+          <Link to="/users">Users</Link>  
+          <Link to="/posts">Posts</Link>
+        </div>
         <Routes>
-          <Route path="/user" element={<User/>}></Route>
-          <Route path="/post" element={<Post/>}></Route>
+          <Route path="/users" element={<User />}></Route>
+          <Route path="/posts" element={<Post />}></Route>
         </Routes>
       </div>
     );
