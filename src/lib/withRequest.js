@@ -1,10 +1,17 @@
 import React, { Component } from "react";
-
+import axios from "axios";
 //higher order component
 
-export default (WrappedComponent) =>
+export default url => WrappedComponent =>
   class extends Component {
+    state = {
+      data: [],
+    };
+    async componentDidMount() {
+      const result = await axios.get(url);
+      this.setState({ data: result.data });
+    }
     render() {
-      <WrappedComponent />;
+     return <WrappedComponent {...this.state} {...this.props} />;
     }
   };

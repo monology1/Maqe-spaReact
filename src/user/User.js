@@ -1,26 +1,19 @@
 import React, { Component } from "react";
-import axios from "axios";
+// import axios from "axios";
+import withRequest from "../lib/withRequest";
 class User extends Component {
   // constructor(){
   //     super();
   //    console.log('User constructor');
   // };
-  state = {
-    data: [],
-  };
-  async componentDidMount() {
-    const result = await axios.get(
-      "https://jsonplaceholder.typicode.com/users"
-    );
-
-    this.setState({ data: result.data });
-  }
+  
   onChange = (e) => {
     console.log(e.target.value);
     this.props.onNameChange(e.target.value);
   };
   render() {
     // const {name} = this.props;
+    // console.log(this.props.data)
     return (
       <div>
         <table>
@@ -32,8 +25,8 @@ class User extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.data.map((user) => (
-              <tr>
+            {this.props.data.map((user) => (
+              <tr key = {user.id}>
                 <td>{user.id}</td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
@@ -45,4 +38,4 @@ class User extends Component {
     );
   }
 }
-export default User;
+export default withRequest("https://jsonplaceholder.typicode.com/users")(User);

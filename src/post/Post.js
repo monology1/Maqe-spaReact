@@ -1,20 +1,12 @@
 import React, { Component } from "react";
-import axios from "axios";
+// import axios from "axios";
+import withRequest from "../lib/withRequest";
 class Post extends Component {
   // constructor(){
   //     super();
   //    console.log('User constructor');
   // };
-  state = {
-    data: [],
-  };
-  async componentDidMount() {
-    const result = await axios.get(
-      "https://jsonplaceholder.typicode.com/posts"
-    );
 
-    this.setState({ data: result.data });
-  }
   onChange = (e) => {
     console.log(e.target.value);
     this.props.onNameChange(e.target.value);
@@ -33,12 +25,12 @@ class Post extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.data.map((user) => (
-              <tr>
-                <td>{user.userId}</td>
-                <td>{user.id}</td>
-                <td>{user.title}</td>
-                <td>{user.body}</td>
+            {this.props.data.map((post) => (
+              <tr key = {post.id}>
+                <td>{post.userId}</td>
+                <td>{post.id}</td>
+                <td>{post.title}</td>
+                <td>{post.body}</td>
               </tr>
             ))}
           </tbody>
@@ -47,4 +39,4 @@ class Post extends Component {
     );
   }
 }
-export default Post;
+export default withRequest("https://jsonplaceholder.typicode.com/posts")(Post);
