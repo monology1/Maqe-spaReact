@@ -1,29 +1,37 @@
 import React, { Component } from "react";
 import "./App.css";
-import User from "./user/User";
+// import User from "./user/User";
 import Post from "./post/Post";
-import { Route, Routes, Link } from "react-router-dom";
+// import { Route, Routes, Link } from "react-router-dom";
+import moment from "moment-timezone";
+import axios from "axios";
 class App extends Component {
   state = {
-    name: "modern",
+    author: []
   };
-  onNameChange = (name) => {
-    this.setState({ name: name });
-  };
+  componentDidMount() {
+    axios.get("http://maqe.github.io/json/authors.json").then((res) => {
+      const author = res.data;
+      this.setState({ author });
+    });
+  }
   render() {
-    const { name } = this.state;
+    const author = this.state.author;
+    
+    const timezone = moment.tz.guess(); //use library to get timezone
+    const regxTime = timezone.replace("_", " "); //replace "_" to " "
+    // console.log(timezone);
     return (
       <div>
-        <div>Hello {name}</div>
         <div>
-          <Link to="/">Home</Link>
-          <Link to="/users">Users</Link>  
-          <Link to="/posts">Posts</Link>
+          <h1>MAQE Forum</h1>
         </div>
-        <Routes>
-          <Route path="/users" element={<User />}></Route>
-          <Route path="/posts" element={<Post />}></Route>
-        </Routes>
+        <div className="Timezone">
+          <p>Your current timezone is: {regxTime}</p>
+        </div>
+        <div className="Posts">
+          <Post author={author}/>
+        </div>
       </div>
     );
   }
