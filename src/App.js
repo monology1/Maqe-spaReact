@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React, { Component } from "react";
+import "./App.css";
+// import User from "./user/User";
+import Post from "./post/Post";
+// import { Route, Routes, Link } from "react-router-dom";
+import moment from "moment-timezone";
+import axios from "axios";
+class App extends Component {
+  state = {
+    author: []
+  };
+  componentDidMount() {
+    axios.get("http://maqe.github.io/json/authors.json").then((res) => {
+      const author = res.data;
+      this.setState({ author });
+    });
+  }
+  render() {
+    const author = this.state.author;
+    
+    const timezone = moment.tz.guess(); //use library to get timezone
+    const regxTime = timezone.replace("_", " "); //replace "_" to " "
+    // console.log(timezone);
+    return (
+      <div  style={{margin:"2rem" }}>
+        <div>
+          <h1>MAQE Forum</h1>
+        </div>
+        <div className="Timezone">
+          <p>Your current timezone is: {regxTime}</p>
+        </div>
+        <div className="Posts">
+          <Post author={author}/>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
