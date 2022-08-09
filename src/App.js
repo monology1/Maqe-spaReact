@@ -22,7 +22,7 @@ class App extends Component {
     const regxTime = timezone.replace("_", " "); //replace "_" to " "
     // console.log(timezone);
     return (
-      <div>
+      <div  style={{margin:"2rem" }}>
         <div>
           <h1>MAQE Forum</h1>
         </div>
